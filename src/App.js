@@ -1,53 +1,67 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import logo from './logo.svg';
-import './App.css';
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import axios from 'axios'
-import Button from '@mui/material/Button';
+import "./App.css";
+import { Link, BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import axios from "axios";
+import { createTheme } from "@mui/material/styles";
 // import pages
 import Home from "./pages/Home";
 import Favorites from "./pages/Favorites";
 //import components
 import Navbar from "./components/Navbar";
-
+import { CssBaseline, Typography } from "@mui/material";
 
 function App() {
-  const [main, setMain] = useState(true) //If user is currently in main page 
-  const [data, setData] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [year, setYear] = useState(2000)
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: "#263238",
+      },
+      secondary: {
+        main: "#4f5b62",
+      },
+    },
+  });
 
-  const getData = async() =>{
+  const [home, setHome] = useState(true); //If user is currently in main page
+  const [data, setData] = useState([[]]);
+  const [loading, setLoading] = useState(true);
+  const [year, setYear] = useState(2000);
+
+  const getData = async () => {
+    let url;
     try {
-      if (main){
-        const url = `https://api.nasa.gov/planetary/apod?api_key=lYOcIYZx1dE9HcZHcx96YYvGmPncGkXQbgTBYUDO&count=15`
+      if (home) {
+        url = `https://api.nasa.gov/planetary/apod?api_key=lYOcIYZx1dE9HcZHcx96YYvGmPncGkXQbgTBYUDO&count=15`;
+      } else {
+        url = `https://api.nasa.gov/planetary/apod?api_key=lYOcIYZx1dE9HcZHcx96YYvGmPncGkXQbgTBYUDO&start_date=${year}-01-01&end_date=${year}-01-15&thumbs='True'`;
       }
-      else{
-        const url = `https://api.nasa.gov/planetary/apod?api_key=lYOcIYZx1dE9HcZHcx96YYvGmPncGkXQbgTBYUDO&start_date=${year}-01-01&end_date=${year}-01-15&thumbs='True'`
-      }
-      const {example} = await axios.get(url) 
-      setData(example)
-      setLoading(false)
-
+      const resp = await axios.get(url);
+      const images = resp.data;
+      setData(resp.data);
+      setLoading(false);
+      // console.log(images);
+      // console.log(data);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
-  
+  };
+
   useEffect(() => {
-    getData()
-  }, [])
+    getData();
+  }, []);
 
   return (
     <Router>
-      <Navbar/>
+      <CssBaseline />
+      <Navbar />
+      {/* <Home data={data} /> */}
       <Routes>
-        <Route exact path="/" element={<Home/>}/>
-        <Route path="/favorites" element={<Favorites/>}/>
+        <Route exact path="/" element={<Home data={data} />} />
+        <Route path="/favorites" element={<Favorites />} />
       </Routes>
     </Router>
-  )
+  );
 }
 
 export default App;
