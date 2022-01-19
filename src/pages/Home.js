@@ -6,64 +6,60 @@ import {
   CardMedia,
   Typography,
   Grid,
+  Container,
 } from "@mui/material/";
 import IconButton from "@mui/material/IconButton";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-const Home = ({ data }) => {
-  // console.log(data);
-  return (
-    <Grid container>
-      <Grid item xs={6}>
-        {data.map((images) => (
-          <Box>
-            <img src={images.url} />
-            <Typography>{images.explanation}</Typography>
-            <Typography>{images.data}</Typography>
-            <Typography> {images.date}</Typography>
-            <IconButton>
-              {" "}
-              <FavoriteIcon />{" "}
-            </IconButton>
-          </Box>
-        ))}
-      </Grid>
-    </Grid>
-    // <Card
-    //   sx={{
-    //     width: "100%",
-    //     display: "flex",
-    //     flexDirection: "column",
-    //   }}
-    // >
-    //   {data.map((images) => (
+import { Waypoint } from "react-waypoint";
+import CircularProgress from '@mui/material/CircularProgress';
 
-    //   ))}
-    // </Card>
+const Home = ({ data, LoadNewPage, loading }) => {
+
+  return (
+    <Container maxWidth="md">
+      <Grid>
+        <Grid item xs={12}>
+          {data.map((images) => (
+            <Box>
+              <Card sx={{ maxWidth: 600 }, { m: 2 }}>
+                <CardMedia
+                  component="img"
+                  height="400"
+                  image={images.url}
+                  alt={images.title}
+                  resizeMode="contain"
+                />
+                <Typography sx={{ fontSize: 25 }}> {images.title} </Typography>
+                <Typography sx={{ fontSize: 18 }}>{images.explanation}</Typography>
+                <Grid container>
+                  <Grid item xs={8}>
+                    <Typography sx={{ p: 2 }}> {images.date}</Typography>
+                  </Grid>
+                  <Grid item xs={4}>
+                    <Box sx={{
+                      display: 'flex',
+                      justifyContent: 'flex-end',
+                      p: 1
+                    }}>
+                      <IconButton>
+                        {" "}
+                        <FavoriteIcon />{" "}
+                      </IconButton>
+                    </Box>
+                  </Grid>
+                </Grid>
+              </Card>
+            </Box>
+          ))}
+        </Grid>
+        <Waypoint onEnter={LoadNewPage}>
+          <Box sx={{ display: 'flex' }}>
+            <CircularProgress />
+          </Box>
+        </Waypoint>
+      </Grid>
+    </Container>
   );
 };
-//  <CardMedia>
-//     <CardContent>
-//       <img src={images.url} />
-//       <Typography> {images.title} </Typography>
-//       <Grid container>
-//         <Grid item xs={10}>
-//           <Typography> {images.explanation} </Typography>
-//         </Grid>
-//       </Grid>
-//       <Grid item xs={2}>
-//         <Box
-//           sx={{
-//             display: "flex",
-//             justifyContent: "flex-end",
-//             p: 1,
-//           }}
-//         >
-//           <Typography> {images.date}</Typography>
-//           <IconButton aria-label="like">
-//             <FavoriteIcon />
-//           </IconButton>
-//         </Box>
-//       </Grid>
-//     </CardContent>
-//   </CardMedia>
+
 export default Home;

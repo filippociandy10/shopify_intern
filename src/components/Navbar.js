@@ -11,13 +11,13 @@ export default function Navbar() {
         <Box display="flex" flexGrow={1}>
           <Link to="/">
             <img
-              style={{ height: "50px", width: "50px" }}
+              style={{ height: "100px", width: "100px" }}
               src={logo}
               alt="Rocket Logo"
               className="logo"
             />
           </Link>
-          <Typography sx={{ m: 2 }} align="right">
+          <Typography sx={{ m: 3, fontSize: 30 }} align="right">
             {" "}
             Spacestagram{" "}
           </Typography>{" "}
