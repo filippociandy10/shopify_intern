@@ -29,7 +29,7 @@ function App() {
   });
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [year, setYear] = useState(2000);
+  const [favorites, setFavorites] = useState([]);
 
   const getData = async () => {
     // if (loading) {
@@ -43,20 +43,23 @@ function App() {
       const resp = await axios.get(url);
       const images = resp.data;
       setData(resp.data);
-      setLoading(false);
+      setLoading(false); window.scrollTo(0, 0)
     } catch (error) {
       console.log(error);
     }
   };
 
   const LoadNewPage = () => {
-    // setLoading(true)
+    setLoading(true)
     getData()
+
+    console.log("scroll to top")
   }
 
   useEffect(() => {
     getData();
-  }, [loading]);
+
+  }, []);
 
   return (
     <ThemeProvider theme={theme}>
@@ -64,8 +67,8 @@ function App() {
         <CssBaseline />
         <Navbar />
         <Routes>
-          <Route exact path="/" element={<Home data={data} LoadNewPage={LoadNewPage} loading={loading} />} />
-          <Route path="/favorites" element={<Favorites />} />
+          <Route exact path="/" element={<Home favorites={favorites} setFavorites={setFavorites} data={data} LoadNewPage={LoadNewPage} loading={loading} />} />
+          {/* <Route path="/favorites" element={<Favorites Favorites={Favorites} />} /> */}
         </Routes>
       </Router>
     </ThemeProvider>
