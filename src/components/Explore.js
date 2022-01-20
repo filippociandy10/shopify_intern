@@ -33,7 +33,11 @@ const Explore = ({ setFavorites, data, LoadNewPage, favorites }) => {
                 <CardMedia
                   component="img"
                   height="500"
-                  image={image.url}
+                  image={
+                    image.media_type === "image"
+                      ? image.url
+                      : image.thumbnail_url
+                  }
                   alt={image.title}
                   resizeMode="contain"
                 />
