@@ -7,11 +7,12 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 // import pages
 import Home from "./pages/Home";
 import Favorites from "./pages/Favorites";
+import Explore from "./components/Explore";
 //import components
 import Navbar from "./components/Navbar";
 import { CssBaseline, Typography } from "@mui/material";
-import CircularProgress from '@mui/material/CircularProgress';
-import Box from '@mui/material/Box';
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
 
 function App() {
   const theme = createTheme({
@@ -23,8 +24,8 @@ function App() {
         main: "#4f5b62",
       },
       background: {
-        default: "#263238"
-      }
+        default: "#263238",
+      },
     },
   });
   const [data, setData] = useState([]);
@@ -32,33 +33,25 @@ function App() {
   const [favorites, setFavorites] = useState([]);
 
   const getData = async () => {
-    // if (loading) {
-    //   return (
-    //     <Box sx={{ display: 'flex' }}>
-    //       <CircularProgress />
-    //     </Box>)
-    // }
     try {
       const url = `https://api.nasa.gov/planetary/apod?api_key=lYOcIYZx1dE9HcZHcx96YYvGmPncGkXQbgTBYUDO&count=5`;
       const resp = await axios.get(url);
       const images = resp.data;
       setData(resp.data);
-      setLoading(false); window.scrollTo(0, 0)
+      setLoading(false);
+      window.scrollTo(0, 0);
     } catch (error) {
       console.log(error);
     }
   };
 
   const LoadNewPage = () => {
-    setLoading(true)
-    getData()
-
-    console.log("scroll to top")
-  }
+    setLoading(true);
+    getData();
+  };
 
   useEffect(() => {
     getData();
-
   }, []);
 
   return (
@@ -67,8 +60,24 @@ function App() {
         <CssBaseline />
         <Navbar />
         <Routes>
-          <Route exact path="/" element={<Home favorites={favorites} setFavorites={setFavorites} data={data} LoadNewPage={LoadNewPage} loading={loading} />} />
-          {/* <Route path="/favorites" element={<Favorites Favorites={Favorites} />} /> */}
+          <Route exact path="/" element={<Home />} />
+          <Route
+            path="/explore"
+            element={
+              <Explore
+                favorites={favorites}
+                setFavorites={setFavorites}
+                data={data}
+                LoadNewPage={LoadNewPage}
+              />
+            }
+          />
+          <Route
+            path="/favorites"
+            element={
+              <Favorites setFavorites={setFavorites} favorites={favorites} />
+            }
+          />
         </Routes>
       </Router>
     </ThemeProvider>

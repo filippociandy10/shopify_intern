@@ -23,9 +23,15 @@ export default function Navbar() {
           </Typography>{" "}
         </Box>
         <Link to="/">
-          <Typography color="#FFFFFF" sx={{ m: 2 }} align="right">
+          <Typography color="#FFFFFF" align="right">
             {" "}
             Home
+          </Typography>
+        </Link>
+        <Link to="/explore">
+          <Typography color="#FFFFFF" sx={{ m: 2 }} align="right">
+            {" "}
+            Explore
           </Typography>
         </Link>
         <Link to="/favorites">

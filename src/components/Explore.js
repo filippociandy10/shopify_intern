@@ -8,24 +8,26 @@ import {
   Grid,
   Container,
 } from "@mui/material/";
-import IconButton from "@mui/material/IconButton";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 
-export default function Favorites({ setFavorites, favorites }) {
-  const unlikePicture = (image) => {
-    var arr = [...favorites];
-    var index = arr.indexOf(image);
-    if (index !== -1) {
-      arr.splice(index, 1);
-      setFavorites(arr);
-    }
-    console.log(arr);
+import IconButton from "@mui/material/IconButton";
+import { useEffect, useState } from "react";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import { Waypoint } from "react-waypoint";
+import CircularProgress from "@mui/material/CircularProgress";
+
+const Explore = ({ setFavorites, data, LoadNewPage, favorites }) => {
+  const isLike = (image) => {
+    return favorites.includes(image);
+  };
+  const likeImage = (image) => {
+    setFavorites((OldFavorites) => [...OldFavorites, image]);
   };
   return (
     <Container maxWidth="md">
       <Grid>
         <Grid item xs={12}>
-          {favorites.map((image) => (
+          {data.map((image) => (
             <Box>
               <Card sx={({ maxWidth: 600 }, { m: 2 })}>
                 <CardMedia
@@ -54,8 +56,12 @@ export default function Favorites({ setFavorites, favorites }) {
                         p: 1,
                       }}
                     >
-                      <IconButton onClick={() => unlikePicture(image)}>
-                        <FavoriteIcon />
+                      <IconButton onClick={() => likeImage(image)}>
+                        {isLike(image) ? (
+                          <FavoriteIcon />
+                        ) : (
+                          <FavoriteBorderIcon />
+                        )}
                       </IconButton>
                     </Box>
                   </Grid>
@@ -64,7 +70,14 @@ export default function Favorites({ setFavorites, favorites }) {
             </Box>
           ))}
         </Grid>
+        <Waypoint onEnter={LoadNewPage}>
+          <Box sx={{ display: "flex" }}>
+            <CircularProgress color="secondary" />
+          </Box>
+        </Waypoint>
       </Grid>
     </Container>
   );
-}
+};
+
+export default Explore;
