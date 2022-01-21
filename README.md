@@ -1,3 +1,9 @@
+Spacestagram
+
+View site: https://filippociandy-spacestagram.netlify.app/
+
+This app uses NASA's Astronomy Picture of the Day API to let merchants browse through the observable universe to get more information on where they should expand next.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
